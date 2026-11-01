@@ -137,13 +137,3 @@ you can clean up all your unneeded classes file using :
 ```bash
 make clean
 ```
-
-# Running tests
-
-We can use JUnit 5 to run the automated unit and integration tests:
-
-```bash
-make test
-```
-
-This compiles both the project and test classes, and runs all test suites via the standalone JUnit 5 runner.
