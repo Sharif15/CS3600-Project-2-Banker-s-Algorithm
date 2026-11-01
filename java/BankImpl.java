@@ -14,17 +14,12 @@ public class BankImpl implements BankInterface {
      */
     public BankImpl(int numberOfCustomers, int[] resources) {
 
-        this.numberOfCustomers = numberOfCustomers;
-        this.numberOfResources = resources.length;
+        // TODO:
+        // Initialize numberOfCustomers and numberOfResources.
 
-        this.available = new int[this.numberOfResources];
-        for (int i = 0; i < this.numberOfResources; i++){
-            this.available[i] = resources[i];
-        }
-        
-        this.maximum = new int[this.numberOfCustomers][this.numberOfResources];
-        this.allocation = new int[this.numberOfCustomers][this.numberOfResources];
-        this.need = new int[this.numberOfCustomers][this.numberOfResources];
+        // TODO:
+        // Initialize available, maximum,
+        // allocation, and need.
     }
 
     /**
@@ -34,109 +29,35 @@ public class BankImpl implements BankInterface {
     @Override
     public void addCustomer(int customerNum, int[] maxDemand) {
 
-        for (int j = 0; j < numberOfResources; j++) {
-                maximum[customerNum][j] = maxDemand[j];
-                need[customerNum][j] = maxDemand[j];
-                allocation[customerNum][j] = 0;
-        }
+        // TODO
     }
 
     /**
      * Displays the current state of the bank:
-     * Available, Maximum, Allocation, and Need.
+     *
+     * Available
+     * Maximum
+     * Allocation
+     * Need
      */
     @Override
-        public void getState() {
-            System.out.println("Available:");
-            System.out.print("[");
-            for (int i = 0; i < numberOfResources; i++) {
-                System.out.print(available[i] + (i <
-                numberOfResources - 1 ? " " : ""));
-            }
-            System.out.println("]\n");
+    public void getState() {
 
-            
-            printMatrix("Maximum", maximum);
-            printMatrix("Allocation", allocation);
-            printMatrix("Need", need);
-        }
+        // TODO
+    }
 
-        private void printMatrix(String title, int[][] matrix) {
-            System.out.println(title + ":");
-            for (int i = 0; i < numberOfCustomers; i++) {
-                System.out.print("Customer " + i + ": [");
-                for (int j = 0; j < numberOfResources; j++) {
-                    System.out.print(matrix[i][j] + (j <
-                    numberOfResources - 1 ? " " : ""));
-                }
-                System.out.println("]");
-            }
-            System.out.println();
-        }
-    
     /**
      * Determines whether the system would remain
      * in a safe state if the request were granted.
-     *
-     * (The Banker's Safety Algorithm)
      */
     private boolean isSafeState(int customerNum, int[] request) {
 
-        // (Work, TempAlloc, tempNeed)
-        int[] work = new int[numberOfResources];
-        for(int j = 0; j < numberOfResources; j++) {
-            work[j] = available[j] - request[j];
-        }
-    
-        int[][] tempAlloc = new
-            int[numberOfCustomers][numberOfResources];
-            int[][] tempNeed = new
-            int[numberOfCustomers][numberOfResources];
-            for (int i = 0; i < numberOfCustomers; i++) {
-                for (int j = 0; j < numberOfResources; j++) {
-                    tempAlloc[i][j] = allocation[i][j];
-                    tempNeed[i][j] = need[i][j];
-            }
-        }
+        // TODO:
+        // Implement the Banker's Safety Algorithm.
 
-        for (int j = 0; j < numberOfResources; j++) {
-            tempAlloc[customerNum][j] += request[j];
-            tempNeed[customerNum][j] -= request[j];
-        }
-
-        boolean[] finish = new boolean[numberOfCustomers];
-        int finishedCount = 0;
-
-        boolean found;
-            do {
-                found = false;
-                for (int i = 0; i < numberOfCustomers; i++) {
-                    if (!finish[i]) {
-                        
-                        boolean canFinish = true;
-                        for (int j = 0; j < numberOfResources;
-                        j++) {
-                            if (tempNeed[i][j] > work[j]) {
-                                canFinish = false;
-                                break;
-                            }
-                        }
-
-                        if (canFinish) {
-                            for (int j = 0; j < numberOfResources;
-                            j++) {
-                                work[j] += tempAlloc[i][j];
-                            }
-                            finish[i] = true;
-                            finishedCount++;
-                            found = true;
-                        }
-                    }
-                }
-            } while (found);
-
-            return finishedCount == numberOfCustomers;            
+        return false;
     }
+
     /**
      * Attempts to allocate resources to a customer.
      *
@@ -144,55 +65,27 @@ public class BankImpl implements BankInterface {
      *         false if denied
      */
     @Override
-    public synchronized boolean requestResources(int customerNum, int[] request) {
+    public synchronized boolean requestResources(
+            int customerNum, int[] request) {
 
-        if (customerNum < 0 || customerNum >= numberOfCustomers) {
-            return false;
-        }
+        // TODO:
+        // 1. Validate the request.
+        // 2. Check whether the request exceeds Need.
+        // 3. Check whether the resources are available.
+        // 4. Check whether the resulting state is safe.
+        // 5. Update the bank if the request is approved.
 
-        for(int j = 0; j < numberOfResources; j++) {
-            if (request[j] < 0 || request[j] > need[customerNum][j]) {
-                return false;
-            }
-        }
-
-        for (int j = 0; j < numberOfResources; j++) {
-            if (request[j] > available[j]) {
-                return false;
-            }
-        }
-
-        if(!isSafeState(customerNum, request)) {
-            return false;
-        }
-        for (int j = 0; j < numberOfResources; j++) {
-                available[j] -= request[j];
-                allocation[customerNum][j] += request[j];
-                need[customerNum][j] -= request[j];
-            }
-
-        return true;
+        return false;
     }
 
     /**
      * Releases resources held by a customer.
      */
     @Override
-    public synchronized void releaseResources(int customerNum, int[] release) {
+    public synchronized void releaseResources(
+            int customerNum, int[] release) {
 
-        if (customerNum < 0 || customerNum >= numberOfCustomers){
-            return;
-        }
-
-        for (int j = 0; j < numberOfResources; j++) {
-                if (release[j] > allocation[customerNum][j]  || release [j] < 0) {
-                    return;
-                }
-            }
-        for(int j = 0; j < numberOfResources; j++) {
-            available[j] += release[j];
-            allocation[customerNum][j] -= release[j];
-            need[customerNum][j] += release[j];
-        }
+        // TODO:
+        // Validate and release the resources.
     }
 }

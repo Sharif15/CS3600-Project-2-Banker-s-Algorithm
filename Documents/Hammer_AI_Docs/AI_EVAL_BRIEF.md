@@ -15,7 +15,6 @@
 * **Student Branch**: `Hammer` ([`https://github.com/Sharif15/CS3600-Project-2-Banker-s-Algorithm/tree/Hammer`](https://github.com/Sharif15/CS3600-Project-2-Banker-s-Algorithm/tree/Hammer))
 * **Local Solution Preservation Branch**: `dev-solution` (Local git commit `80a6b4f`)
 * **Core Source Files**: [`java/BankImpl.java`](../../java/BankImpl.java) & [`java/TestBankers.java`](../../java/TestBankers.java)
-* **JUnit 5 Test Suite**: [`java/test/BankImplTest.java`](../../java/test/BankImplTest.java)
 
 ---
 

@@ -13,20 +13,7 @@ RESOURCES = 10 5 7 8
 # Compiled class files
 CLASSES = $(SOURCES:.java=.class)
 
-# Platform-specific configurations
-ifeq ($(OS),Windows_NT)
-    CP_SEP = ;
-    CLEAN_CMD = cmd /c "del /Q /F *.class test\*.class 2>nul"
-else
-    CP_SEP = :
-    CLEAN_CMD = rm -f *.class test/*.class
-endif
-
-# JUnit 5 Testing configuration
-JUNIT_JAR = lib/junit-platform-console-standalone-1.10.2.jar
-TEST_SOURCES = test/BankImplTest.java
-
-.PHONY: all compile run test compile-tests clean rebuild help
+.PHONY: all compile run clean rebuild help
 
 # Default target
 all: compile
@@ -35,21 +22,13 @@ all: compile
 compile:
 	$(JAVAC) -Xlint:all $(SOURCES)
 
-# Compile test files
-compile-tests: compile
-	$(JAVAC) -cp ".$(CP_SEP)$(JUNIT_JAR)" $(TEST_SOURCES)
-
-# Run JUnit 5 tests
-test: compile-tests
-	$(JAVA) -jar $(JUNIT_JAR) execute --class-path ".$(CP_SEP)test" --scan-class-path
-
 # Run the program
 run: compile
 	$(JAVA) $(MAIN) $(INPUT_FILE) $(RESOURCES)
 
 # Remove compiled class files
 clean:
-	-$(CLEAN_CMD)
+	rm -f *.class
 
 # Clean and recompile
 rebuild: clean compile
@@ -60,7 +39,6 @@ help:
 	@echo "----------------------------------------"
 	@echo "make compile  - Compile the project"
 	@echo "make run      - Compile and run the project"
-	@echo "make test     - Compile and run JUnit 5 tests"
 	@echo "make clean    - Remove compiled files"
 	@echo "make rebuild  - Clean and recompile"
 	@echo "make help     - Display this help message"
