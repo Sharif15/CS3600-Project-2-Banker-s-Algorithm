@@ -232,6 +232,7 @@ The test harness [`TestBankers.java`](../../java/TestBankers.java) was tested ex
 | **`BankImpl.java`** | Core Banker's Algorithm, Safety simulation, and matrix state management | **100% Implemented & Verified** | Archived on local branch `dev-solution`; ready to merge upon team consensus |
 | **`TestBankers.java`** | Command-line argument parsing, file reading, customer registration, interactive command loop | **100% Implemented & Verified** | Archived on local branch `dev-solution`; ready to merge upon team consensus |
 | **Documentation & Theory** | Mathematical formulation, LaTeX state space modeling, academic integrity | **100% Authored by Christopher Hammer** | Committed directly to branch `Hammer` |
+| **JUnit 5 Test Suite** (`java/test/`, `java/lib/`, `make test`) | Automated unit and integration test suite, standalone test runner, test inputs | **100% Implemented & Authored by Christopher Hammer** | Committed directly to branch `Hammer` for team use |
 
 ---
 
