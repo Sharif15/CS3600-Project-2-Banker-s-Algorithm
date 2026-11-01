@@ -128,7 +128,7 @@ To run the example execution use:
 
 ```bash
 
-make run-example
+make run
 
 ```
 
