@@ -2,6 +2,7 @@
 
 ## Team member
 
+Sharif Islam
 <br>  
 
 <br>
@@ -106,12 +107,14 @@ make
 
 Unlike Project 1 we will need to run the file ourself if we want to control the number of resources.
 
-This is an example of how we can run the project this has 
+This is an example of how we can run the project. <br> 
 
-R0 = 10
-R1 = 5
-R2 = 7
-R3 = 8 
+This has: <br> 
+
+R0 = 10 <br>
+R1 = 5 <br>
+R2 = 7 <br>
+R3 = 8 <br>
 
 ```bash
 
