@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class BankImpl implements BankInterface {
 
     private final int numberOfCustomers;
@@ -58,9 +60,51 @@ public class BankImpl implements BankInterface {
     @Override
     public void addCustomer(int customerNum, int[] maxDemand) {
 
-        for (int j = 0; j < numberOfResources; j++) {
-            maximum[customerNum][j] = maxDemand[j];
-            need[customerNum][j] = maxDemand[j];
+      // Validate customer number
+        if (customerNum < 0 || customerNum >= numberOfCustomers) {
+            throw new IllegalArgumentException(
+                "Invalid customer number: " + customerNum
+            );
+        }
+
+        // Validate demand array
+        if (maxDemand == null || maxDemand.length != numberOfResources) {
+            throw new IllegalArgumentException(
+                "Maximum demand must contain exactly "
+                + numberOfResources + " resource values."
+            );
+        }
+
+        // Validate each resource demand
+        for (int i = 0; i < numberOfResources; i++) {
+
+            if (maxDemand[i] < 0) {
+                throw new IllegalArgumentException(
+                    "Maximum demand cannot be negative."
+                );
+            }
+
+            if (maxDemand[i] > available[i]) {
+                throw new IllegalArgumentException(
+                    "Customer demand exceeds total resources "
+                    + "for resource type " + i
+                );
+            }
+        }
+
+        // Store maximum demand
+        maximum[customerNum] = Arrays.copyOf(
+            maxDemand,
+            numberOfResources
+        );
+
+        // Initially, allocation is zero
+        Arrays.fill(allocation[customerNum], 0);
+
+        // Initially, Need = Maximum - Allocation
+        for (int i = 0; i < numberOfResources; i++) {
+            need[customerNum][i] =
+                maximum[customerNum][i] - allocation[customerNum][i];
         }
     }
 
