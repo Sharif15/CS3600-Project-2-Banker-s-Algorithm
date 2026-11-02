@@ -8,7 +8,7 @@ MAIN = TestBankers
 
 # Default input configuration
 INPUT_FILE = inPutFile.txt
-RESOURCES = 10 5 7 8
+RESOURCES = 10 7 7 8
 
 # Compiled class files
 CLASSES = $(SOURCES:.java=.class)
