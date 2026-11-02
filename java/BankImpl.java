@@ -230,36 +230,58 @@ public class BankImpl implements BankInterface {
      *         false if denied
      */
     @Override
-    public synchronized boolean requestResources(
-            int customerNum, int[] request) {
+    public synchronized boolean requestResources(int customerNum, int[] request) 
+    
+    {
+
+        // Validate customer number.
+        if (customerNum < 0 || customerNum >= numberOfCustomers) {
+            System.out.println("DENIED: Invalid customer number.");
+            return false;
+        }
+
+        // Validate request vector.
+        if (request == null || request.length != numberOfResources) {
+            System.out.println("DENIED: Invalid request vector length.");
+            return false;
+        }
+
+        // Reject negative resource requests.
+        for (int i = 0; i < numberOfResources; i++) {
+            if (request[i] < 0) {
+                System.out.println("DENIED: Negative resource requests are invalid.");
+                return false;
+            }
+        }
+
 
         // 1 & 2. Check whether the request exceeds Need
-        for (int j = 0; j < numberOfResources; j++) {
-            if (request[j] > need[customerNum][j]) {
+        for (int i = 0; i < numberOfResources; i++) {
+            if (request[i] > need[customerNum][i]) {
                 System.out.println("DENIED: Request exceeds maximum declared need.");
                 return false;
             }
         }
 
         // 3. Check whether the resources are available
-        for (int j = 0; j < numberOfResources; j++) {
-            if (request[j] > available[j]) {
+        for (int i = 0; i < numberOfResources; i++) {
+            if (request[i] > available[i]) {
                 System.out.println("DENIED: Insufficient instances available right now.");
                 return false;
             }
         }
 
-        // 4. Check whether the resulting state is safe using Christopher's algorithm
+        // 4. Check whether the resulting state is safe using Banker's algorithm
         if (!isSafeState(customerNum, request)) {
             System.out.println("DENIED: System allocation leads to an unsafe state.");
             return false;
         }
 
         // 5. Update the bank matrices since the request is approved safely
-        for (int j = 0; j < numberOfResources; j++) {
-            available[j] -= request[j];
-            allocation[customerNum][j] += request[j];
-            need[customerNum][j] -= request[j];
+        for (int i = 0; i < numberOfResources; i++) {
+            available[i] -= request[i];
+            allocation[customerNum][i] += request[i];
+            need[customerNum][i] -= request[i];
         }
 
         System.out.println("APPROVED: Request allocated successfully.");
