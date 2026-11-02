@@ -149,3 +149,9 @@ make test
 ```
 
 This compiles both the project and test classes, and runs all test suites via the standalone JUnit 5 runner.
+
+---
+
+## AI Attribution Disclaimer
+I, Gustavo Valencia, used Google AI for the implementation of the `requestResources` routine inside `BankImpl.java`.
+
