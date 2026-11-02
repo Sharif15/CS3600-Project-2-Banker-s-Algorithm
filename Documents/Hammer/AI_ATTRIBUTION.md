@@ -34,6 +34,7 @@ As an active member of a multi-student team (alongside Sharif Islam and Christop
 * **Respecting Teammate Contribution**: To avoid dominating the repository or discouraging teammates from writing and debugging their own assigned sections, the student has intentionally **not pushed the complete working codebase directly to the shared team repository**.
 * **Preservation & Verification**: The complete, tested, and fully functional implementation is archived in the student's local Git environment on the branch `dev-solution` (commit `80a6b4f`).
 * **Equitable Integration & Active Team Delegation**: The student's active remote branch (`Hammer`) begins clean from the team baseline. When team leader Sharif requested assistance implementing `getState()` and an architectural helper for formatted matrix printing to relieve team workload, the student authored and staged `getState()`, `printVector()`, and reusable `printMatrix()`, while intentionally leaving the remaining methods (`addCustomer()`, `requestResources()`, and `releaseResources()`) as stubs for teammates.
+* **Equitable Integration**: The student's active remote branch (`Hammer`) begins clean from the team baseline. When the team officially convenes to assign and distribute project modules, the student will integrate and contribute the specific module(s) agreed upon with teammates while providing architectural support for the remainder.
 * **Instructor Verification**: This document and the accompanying test traces serve as an official record for the instructor that the student author has completed and verified the entire project end-to-end.
 
 ---
@@ -229,7 +230,7 @@ The test harness [`TestBankers.java`](../../java/TestBankers.java) was tested ex
 | Module | Interface / Specification | Student Author Status | Team Staging Status |
 | :--- | :--- | :--- | :--- |
 | **`BankInterface.java`** | System contract (`addCustomer`, `getState`, `requestResources`, `releaseResources`) | Preserved unmodified | Checked into branch |
-| **`BankImpl.java`** | Core Banker's Algorithm, Safety simulation, and matrix state management | **100% Implemented & Verified** | `isSafeState()`, `getState()`, and `printMatrix()` committed to branch `Hammer`; full solution archived on local branch `dev-solution` |
+| **`BankImpl.java`** | Core Banker's Algorithm, Safety simulation, and matrix state management | **100% Implemented & Verified** | Archived on local branch `dev-solution`; ready to merge upon team consensus |
 | **`TestBankers.java`** | Command-line argument parsing, file reading, customer registration, interactive command loop | **100% Implemented & Verified** | Archived on local branch `dev-solution`; ready to merge upon team consensus |
 | **Documentation & Theory** | Mathematical formulation, LaTeX state space modeling, academic integrity | **100% Authored by Christopher Hammer** | Committed directly to branch `Hammer` |
 | **JUnit 5 Test Suite** (`java/test/`, `java/lib/`, `make test`) | Automated unit and integration test suite, standalone test runner, test inputs | **100% Implemented & Authored by Christopher Hammer** | Committed directly to branch `Hammer` for team use |
