@@ -62,6 +62,47 @@ public class BankImpl implements BankInterface {
     }
 
     /**
+     * Helper method to format and display a 1D resource vector.
+     *
+     * @param title the label of the vector (e.g. "Available")
+     * @param vector the 1D array of resource counts
+     */
+    private void printVector(String title, int[] vector) {
+        System.out.println(title + ":");
+        System.out.print("[");
+        for (int j = 0; j < numberOfResources; j++) {
+            System.out.print(vector[j]);
+            if (j < numberOfResources - 1) {
+                System.out.print(" ");
+            }
+        }
+        System.out.println("]");
+        System.out.println();
+    }
+
+    /**
+     * Helper method to format and display a 2D resource matrix.
+     * Reusable across Maximum, Allocation, and Need to avoid duplicate code.
+     *
+     * @param title the label of the matrix (e.g. "Maximum", "Allocation", "Need")
+     * @param matrix the 2D customer-by-resource matrix to display
+     */
+    private void printMatrix(String title, int[][] matrix) {
+        System.out.println(title + ":");
+        for (int i = 0; i < numberOfCustomers; i++) {
+            System.out.print("Customer " + i + ": [");
+            for (int j = 0; j < numberOfResources; j++) {
+                System.out.print(matrix[i][j]);
+                if (j < numberOfResources - 1) {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println("]");
+        }
+        System.out.println();
+    }
+
+    /**
      * Displays the current state of the bank:
      *
      * Available
@@ -70,9 +111,11 @@ public class BankImpl implements BankInterface {
      * Need
      */
     @Override
-    public void getState() {
-
-        // TODO
+    public synchronized void getState() {
+        printVector("Available", available);
+        printMatrix("Maximum", maximum);
+        printMatrix("Allocation", allocation);
+        printMatrix("Need", need);
     }
 
     /**
