@@ -104,7 +104,13 @@ git push
 We can use the makefile to build the project :
 
 ```bash
-make 
+make compile
+```
+
+To view all of the make commands for this project run : 
+
+```bash
+make help
 ```
 
 Unlike Project 1 we will need to run the file ourself if we want to control the number of resources.
@@ -114,13 +120,13 @@ This is an example of how we can run the project. <br>
 This has: <br> 
 
 R0 = 10 <br>
-R1 = 5 <br>
+R1 = 7 <br>
 R2 = 7 <br>
 R3 = 8 <br>
 
 ```bash
 
-java TestBankers inPutFile.txt 10 5 7 8
+java TestBankers inPutFile.txt 10 7 7 8
 
 ```
 

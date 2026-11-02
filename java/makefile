@@ -87,7 +87,6 @@ help:
 	@echo "make compile-tests - Compile application and tests"
 	@echo "make test        - Run all JUnit tests"
 	@echo "make test-unit   - Run BankImpl unit tests"
-	@echo "make test-driver - Run driver integration tests"
 	@echo "make clean       - Remove compiled files"
 	@echo "make rebuild     - Clean and recompile"
 	@echo "make help        - Display this help message"
