@@ -8,6 +8,8 @@ Christopher Harris
 <br>
 Christopher Hammer
 <br>
+Gustavo Valencia
+<br>
 
 ## Getting started
 
