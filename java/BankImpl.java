@@ -87,7 +87,7 @@ public class BankImpl implements BankInterface {
             if (maxDemand[i] > available[i]) {
                 throw new IllegalArgumentException(
                     "Customer demand exceeds total resources "
-                    + "for resource type " + i
+                    + "for resource type " + i + "\n available " + available[i]
                 );
             }
         }
