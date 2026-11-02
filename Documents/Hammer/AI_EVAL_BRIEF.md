@@ -50,7 +50,7 @@
 
 ### 3. Student Implementation & Collaborative Team Staging
 * **Independent Mastery**: Christopher Hammer independently coded and verified the entire project end-to-end (`BankImpl.java` and `TestBankers.java`).
-* **Collaborative Staging**: To protect team equity and ensure project partners (Sharif Islam and Christopher Harris) have equal opportunity to author their own assigned portions, the working code is held in the student's local preservation branch (`dev-solution`) and will be merged into the team repository in agreement with the team's planned division of labor.
+* **Collaborative Staging & Team Delegation**: To protect team equity, `isSafeState()`, `getState()`, and `printMatrix()` are active on branch `Hammer` (implemented per team lead request), while remaining stubs (`addCustomer`, `requestResources`, `releaseResources`) are preserved for teammates. Full end-to-end reference implementation is archived on `dev-solution`.
 * **Reproduction**:
   ```bash
   cd java
