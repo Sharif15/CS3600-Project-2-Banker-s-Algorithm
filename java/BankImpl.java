@@ -14,12 +14,17 @@ public class BankImpl implements BankInterface {
      */
     public BankImpl(int numberOfCustomers, int[] resources) {
 
-        // TODO:
-        // Initialize numberOfCustomers and numberOfResources.
+        this.numberOfCustomers = numberOfCustomers;
+        this.numberOfResources = resources.length;
 
-        // TODO:
-        // Initialize available, maximum,
-        // allocation, and need.
+        this.available = new int[this.numberOfResources];
+        for (int i = 0; i < this.numberOfResources; i++) {
+            this.available[i] = resources[i];
+        }
+
+        this.maximum = new int[this.numberOfCustomers][this.numberOfResources];
+        this.allocation = new int[this.numberOfCustomers][this.numberOfResources];
+        this.need = new int[this.numberOfCustomers][this.numberOfResources];
     }
 
     /**
@@ -49,13 +54,59 @@ public class BankImpl implements BankInterface {
     /**
      * Determines whether the system would remain
      * in a safe state if the request were granted.
+     *
+     * (The Banker's Safety Algorithm)
      */
     private boolean isSafeState(int customerNum, int[] request) {
 
-        // TODO:
-        // Implement the Banker's Safety Algorithm.
+        int[] work = new int[numberOfResources];
+        for (int j = 0; j < numberOfResources; j++) {
+            work[j] = available[j] - request[j];
+        }
 
-        return false;
+        int[][] tempAlloc = new int[numberOfCustomers][numberOfResources];
+        int[][] tempNeed = new int[numberOfCustomers][numberOfResources];
+        for (int i = 0; i < numberOfCustomers; i++) {
+            for (int j = 0; j < numberOfResources; j++) {
+                tempAlloc[i][j] = allocation[i][j];
+                tempNeed[i][j] = need[i][j];
+            }
+        }
+
+        for (int j = 0; j < numberOfResources; j++) {
+            tempAlloc[customerNum][j] += request[j];
+            tempNeed[customerNum][j] -= request[j];
+        }
+
+        boolean[] finish = new boolean[numberOfCustomers];
+        int finishedCount = 0;
+
+        boolean found;
+        do {
+            found = false;
+            for (int i = 0; i < numberOfCustomers; i++) {
+                if (!finish[i]) {
+                    boolean canFinish = true;
+                    for (int j = 0; j < numberOfResources; j++) {
+                        if (tempNeed[i][j] > work[j]) {
+                            canFinish = false;
+                            break;
+                        }
+                    }
+
+                    if (canFinish) {
+                        for (int j = 0; j < numberOfResources; j++) {
+                            work[j] += tempAlloc[i][j];
+                        }
+                        finish[i] = true;
+                        finishedCount++;
+                        found = true;
+                    }
+                }
+            }
+        } while (found);
+
+        return finishedCount == numberOfCustomers;
     }
 
     /**
