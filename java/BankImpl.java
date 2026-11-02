@@ -1,7 +1,7 @@
 public class BankImpl implements BankInterface {
 
-    private int numberOfCustomers;
-    private int numberOfResources;
+    private final int numberOfCustomers;
+    private final int numberOfResources;
 
     // Banker's Algorithm data structures
     private int[] available;
@@ -14,23 +14,47 @@ public class BankImpl implements BankInterface {
      */
     public BankImpl(int numberOfCustomers, int[] resources) {
 
-        this.numberOfCustomers = numberOfCustomers;
-        this.numberOfResources = resources.length;
-
-        this.available = new int[this.numberOfResources];
-        for (int i = 0; i < this.numberOfResources; i++) {
-            this.available[i] = resources[i];
+        // Validating constructor input
+        if(numberOfCustomers != 5){
+            throw new IllegalArgumentException(
+                "Customer number must be 5"
+            );
         }
 
-        this.maximum = new int[this.numberOfCustomers][this.numberOfResources];
-        this.allocation = new int[this.numberOfCustomers][this.numberOfResources];
-        this.need = new int[this.numberOfCustomers][this.numberOfResources];
+        if (resources == null || resources.length == 0) {
+            throw new IllegalArgumentException(
+                "Resource array cannot be null or empty."
+            );
+        }
+
+        for(int i = 0; i < resources.length; i++){
+            if(resources[i] < 0){
+                throw new IllegalArgumentException(
+                    "Total resources cannot be negative"
+                );
+            }
+        }
+
+
+        this.numberOfCustomers = numberOfCustomers; // could hard code to 5 also for this specific project
+        this.numberOfResources = resources.length;
+
+        this.available = new int[numberOfResources];
+
+        for (int i = 0; i < numberOfResources; i++) {
+            available[i] = resources[i];
+        }
+
+        this.maximum = new int[this.numberOfCustomers][numberOfResources];
+        this.allocation = new int[this.numberOfCustomers][numberOfResources];
+        this.need = new int[this.numberOfCustomers][numberOfResources];
     }
 
     /**
      * Adds a customer and records the customer's
      * maximum resource demand.
      */
+    
     @Override
     public void addCustomer(int customerNum, int[] maxDemand) {
 
