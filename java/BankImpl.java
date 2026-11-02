@@ -58,7 +58,10 @@ public class BankImpl implements BankInterface {
     @Override
     public void addCustomer(int customerNum, int[] maxDemand) {
 
-        // TODO
+        for (int j = 0; j < numberOfResources; j++) {
+            maximum[customerNum][j] = maxDemand[j];
+            need[customerNum][j] = maxDemand[j];
+        }
     }
 
     /**
@@ -186,14 +189,37 @@ public class BankImpl implements BankInterface {
     public synchronized boolean requestResources(
             int customerNum, int[] request) {
 
-        // TODO:
-        // 1. Validate the request.
-        // 2. Check whether the request exceeds Need.
-        // 3. Check whether the resources are available.
-        // 4. Check whether the resulting state is safe.
-        // 5. Update the bank if the request is approved.
+        // 1 & 2. Check whether the request exceeds Need
+        for (int j = 0; j < numberOfResources; j++) {
+            if (request[j] > need[customerNum][j]) {
+                System.out.println("DENIED: Request exceeds maximum declared need.");
+                return false;
+            }
+        }
 
-        return false;
+        // 3. Check whether the resources are available
+        for (int j = 0; j < numberOfResources; j++) {
+            if (request[j] > available[j]) {
+                System.out.println("DENIED: Insufficient instances available right now.");
+                return false;
+            }
+        }
+
+        // 4. Check whether the resulting state is safe using Christopher's algorithm
+        if (!isSafeState(customerNum, request)) {
+            System.out.println("DENIED: System allocation leads to an unsafe state.");
+            return false;
+        }
+
+        // 5. Update the bank matrices since the request is approved safely
+        for (int j = 0; j < numberOfResources; j++) {
+            available[j] -= request[j];
+            allocation[customerNum][j] += request[j];
+            need[customerNum][j] -= request[j];
+        }
+
+        System.out.println("APPROVED: Request allocated successfully.");
+        return true;
     }
 
     /**
@@ -203,7 +229,18 @@ public class BankImpl implements BankInterface {
     public synchronized void releaseResources(
             int customerNum, int[] release) {
 
-        // TODO:
-        // Validate and release the resources.
+        for (int j = 0; j < numberOfResources; j++) {
+            if (release[j] > allocation[customerNum][j]) {
+                System.out.println("ERROR: Cannot release more resources than allocated.");
+                return;
+            }
+        }
+
+        for (int j = 0; j < numberOfResources; j++) {
+            available[j] += release[j];
+            allocation[customerNum][j] -= release[j];
+            need[customerNum][j] += release[j];
+        }
+        System.out.println("SUCCESS: Resources released.");
     }
 }
