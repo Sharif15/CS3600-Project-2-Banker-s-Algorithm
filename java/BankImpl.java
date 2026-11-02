@@ -269,22 +269,41 @@ public class BankImpl implements BankInterface {
     /**
      * Releases resources held by a customer.
      */
-    @Override
+     @Override
     public synchronized void releaseResources(
             int customerNum, int[] release) {
+    	
+    	// Verify the customer number is valid
+    	if (customerNum < 0 || customerNum >= numberOfCustomers) {
+    		System.out.println("Invalid customer number.");
+    		return;
+    	}
+    	
+    	// Make sure that the release array is the correct size
+    	if (release == null || release.length != numberOfResources) {
+    		System.out.println("Invalid release request");
+    		return;
+    	}
+    	
+    	// Check every resource before changing anything
+    	for (int i = 0; i < numberOfResources; i++) {
+    		if (release[i] < 0 || release[i] > allocation[customerNum][i]) {
+    			System.out.println("Invalid release request");
+    			return;
+    		}
+    	}
+    		// all values are valid so the bank will update.
+    		for (int i = 0; i < numberOfResources; i++) {
+    			available[i] += release[i];
+    			allocation[customerNum][i] -= release[i];
+    			need[customerNum][i] += release[i];
+    			
+    		}
+    			
+    	
 
-        for (int j = 0; j < numberOfResources; j++) {
-            if (release[j] > allocation[customerNum][j]) {
-                System.out.println("ERROR: Cannot release more resources than allocated.");
-                return;
-            }
-        }
-
-        for (int j = 0; j < numberOfResources; j++) {
-            available[j] += release[j];
-            allocation[customerNum][j] -= release[j];
-            need[customerNum][j] += release[j];
-        }
-        System.out.println("SUCCESS: Resources released.");
-    }
+    	System.out.println("Success: resource released");
+}
+    
+    
 }
