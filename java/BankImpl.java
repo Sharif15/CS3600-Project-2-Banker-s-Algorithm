@@ -1,7 +1,7 @@
 public class BankImpl implements BankInterface {
 
-    private int numberOfCustomers;
-    private int numberOfResources;
+    private final int numberOfCustomers;
+    private final int numberOfResources;
 
     // Banker's Algorithm data structures
     private int[] available;
@@ -14,23 +14,47 @@ public class BankImpl implements BankInterface {
      */
     public BankImpl(int numberOfCustomers, int[] resources) {
 
-        this.numberOfCustomers = numberOfCustomers;
-        this.numberOfResources = resources.length;
-
-        this.available = new int[this.numberOfResources];
-        for (int i = 0; i < this.numberOfResources; i++) {
-            this.available[i] = resources[i];
+        // Validating constructor input
+        if(numberOfCustomers != 5){
+            throw new IllegalArgumentException(
+                "Customer number must be 5"
+            );
         }
 
-        this.maximum = new int[this.numberOfCustomers][this.numberOfResources];
-        this.allocation = new int[this.numberOfCustomers][this.numberOfResources];
-        this.need = new int[this.numberOfCustomers][this.numberOfResources];
+        if (resources == null || resources.length == 0) {
+            throw new IllegalArgumentException(
+                "Resource array cannot be null or empty."
+            );
+        }
+
+        for(int i = 0; i < resources.length; i++){
+            if(resources[i] < 0){
+                throw new IllegalArgumentException(
+                    "Total resources cannot be negative"
+                );
+            }
+        }
+
+
+        this.numberOfCustomers = numberOfCustomers; // could hard code to 5 also for this specific project
+        this.numberOfResources = resources.length;
+
+        this.available = new int[numberOfResources];
+
+        for (int i = 0; i < numberOfResources; i++) {
+            available[i] = resources[i];
+        }
+
+        this.maximum = new int[this.numberOfCustomers][numberOfResources];
+        this.allocation = new int[this.numberOfCustomers][numberOfResources];
+        this.need = new int[this.numberOfCustomers][numberOfResources];
     }
 
     /**
      * Adds a customer and records the customer's
      * maximum resource demand.
      */
+    
     @Override
     public void addCustomer(int customerNum, int[] maxDemand) {
 
@@ -38,6 +62,47 @@ public class BankImpl implements BankInterface {
             maximum[customerNum][j] = maxDemand[j];
             need[customerNum][j] = maxDemand[j];
         }
+    }
+
+    /**
+     * Helper method to format and display a 1D resource vector.
+     *
+     * @param title the label of the vector (e.g. "Available")
+     * @param vector the 1D array of resource counts
+     */
+    private void printVector(String title, int[] vector) {
+        System.out.println(title + ":");
+        System.out.print("[");
+        for (int j = 0; j < numberOfResources; j++) {
+            System.out.print(vector[j]);
+            if (j < numberOfResources - 1) {
+                System.out.print(" ");
+            }
+        }
+        System.out.println("]");
+        System.out.println();
+    }
+
+    /**
+     * Helper method to format and display a 2D resource matrix.
+     * Reusable across Maximum, Allocation, and Need to avoid duplicate code.
+     *
+     * @param title the label of the matrix (e.g. "Maximum", "Allocation", "Need")
+     * @param matrix the 2D customer-by-resource matrix to display
+     */
+    private void printMatrix(String title, int[][] matrix) {
+        System.out.println(title + ":");
+        for (int i = 0; i < numberOfCustomers; i++) {
+            System.out.print("Customer " + i + ": [");
+            for (int j = 0; j < numberOfResources; j++) {
+                System.out.print(matrix[i][j]);
+                if (j < numberOfResources - 1) {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println("]");
+        }
+        System.out.println();
     }
 
     /**
@@ -49,40 +114,11 @@ public class BankImpl implements BankInterface {
      * Need
      */
     @Override
-    public void getState() {
-
-        System.out.println("Available Resources:");
-        for (int j = 0; j < numberOfResources; j++) {
-            System.out.print(available[j] + " ");
-        }
-        System.out.println("\n");
-
-        System.out.println("Maximum Matrix:");
-        for (int i = 0; i < numberOfCustomers; i++) {
-            for (int j = 0; j < numberOfResources; j++) {
-                System.out.print(maximum[i][j] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-
-        System.out.println("Allocation Matrix:");
-        for (int i = 0; i < numberOfCustomers; i++) {
-            for (int j = 0; j < numberOfResources; j++) {
-                System.out.print(allocation[i][j] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-
-        System.out.println("Need Matrix:");
-        for (int i = 0; i < numberOfCustomers; i++) {
-            for (int j = 0; j < numberOfResources; j++) {
-                System.out.print(need[i][j] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
+    public synchronized void getState() {
+        printVector("Available", available);
+        printMatrix("Maximum", maximum);
+        printMatrix("Allocation", allocation);
+        printMatrix("Need", need);
     }
 
     /**
